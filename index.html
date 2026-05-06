@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CRABS-90 Scoring System</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #f0f4ff;
+      --surface: #ffffff;
+      --surface2: #f7f9ff;
+      --border: #d0d9f0;
+      --primary: #2563eb;
+      --primary-light: #eff4ff;
+      --primary-mid: #bfcffd;
+      --text: #1e2d4a;
+      --muted: #6b7a99;
+      --low: #16a34a;
+      --low-bg: #f0fdf4;
+      --low-border: #bbf7d0;
+      --mod: #d97706;
+      --mod-bg: #fffbeb;
+      --mod-border: #fde68a;
+      --high: #dc2626;
+      --high-bg: #fff5f5;
+      --high-border: #fecaca;
+    }
+
+    body {
+      font-family: 'Outfit', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 2.5rem 1rem 4rem;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(37,99,235,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(37,99,235,0.04) 1px, transparent 1px);
+      background-size: 36px 36px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .container {
+      max-width: 760px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 2.5rem;
+      animation: fadeDown 0.6s ease both;
+    }
+
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: var(--primary-light);
+      border: 1px solid var(--primary-mid);
+      color: var(--primary);
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      padding: 0.35rem 1rem;
+      border-radius: 100px;
+      margin-bottom: 1.1rem;
+    }
+
+    .header h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.4rem, 7vw, 3.4rem);
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.1;
+      margin-bottom: 0.5rem;
+    }
+
+    .header h1 span { color: var(--primary); }
+
+    .header p {
+      color: var(--muted);
+      font-size: 0.9rem;
+      font-weight: 300;
+      max-width: 480px;
+      margin: 0 auto;
+      line-height: 1.65;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: 0 4px 24px rgba(37,99,235,0.08), 0 1px 4px rgba(0,0,0,0.04);
+    }
+
+    .card-header {
+      background: linear-gradient(135deg, var(--primary) 0%, #3b82f6 100%);
+      padding: 1.2rem 1.75rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .card-header h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: white;
+      letter-spacing: 0.02em;
+    }
+
+    .score-list {
+      padding: 1.25rem 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.65rem;
+    }
+
+    .score-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.9rem 1.1rem;
+      border-radius: 12px;
+      border: 1.5px solid var(--border);
+      background: var(--surface2);
+      transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+      gap: 1rem;
+      animation: fadeUp 0.4s ease both;
+    }
+
+    .score-item:nth-child(1){animation-delay:0.1s}
+    .score-item:nth-child(2){animation-delay:0.15s}
+    .score-item:nth-child(3){animation-delay:0.2s}
+    .score-item:nth-child(4){animation-delay:0.25s}
+    .score-item:nth-child(5){animation-delay:0.3s}
+    .score-item:nth-child(6){animation-delay:0.35s}
+
+    .score-item:hover { border-color: var(--primary-mid); box-shadow: 0 2px 10px rgba(37,99,235,0.08); }
+    .score-item.active {
+      background: var(--primary-light);
+      border-color: #93c5fd;
+      box-shadow: 0 2px 12px rgba(37,99,235,0.12);
+    }
+
+    .item-left {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.8rem;
+      flex: 1;
+    }
+
+    .item-num {
+      width: 26px; height: 26px;
+      border-radius: 7px;
+      background: var(--primary);
+      color: white;
+      font-size: 0.72rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .item-label {
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--text);
+      line-height: 1.4;
+    }
+
+    .item-label small {
+      display: block;
+      color: var(--muted);
+      font-size: 0.74rem;
+      font-weight: 400;
+      margin-top: 0.15rem;
+    }
+
+    .item-right {
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+      flex-shrink: 0;
+    }
+
+    /* Numeric input */
+    .input-numeric {
+      display: flex;
+      align-items: center;
+      background: white;
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      padding: 0.32rem 0.6rem;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      gap: 0.3rem;
+    }
+
+    .input-numeric:focus-within {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(37,99,235,0.1);
+    }
+
+    .input-numeric input {
+      width: 68px;
+      border: none;
+      outline: none;
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.88rem;
+      font-weight: 500;
+      color: var(--text);
+      background: transparent;
+      text-align: center;
+    }
+
+    .input-numeric input::placeholder { color: #c0cce8; }
+
+    .input-numeric .unit {
+      font-size: 0.7rem;
+      color: var(--muted);
+      white-space: nowrap;
+      border-left: 1px solid var(--border);
+      padding-left: 0.4rem;
+    }
+
+    /* Toggle */
+    .toggle-btn {
+      display: flex;
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+      background: white;
+    }
+
+    .toggle-btn button {
+      border: none;
+      background: transparent;
+      padding: 0.42rem 0.9rem;
+      font-size: 0.78rem;
+      font-weight: 600;
+      font-family: 'Outfit', sans-serif;
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s;
+      color: var(--muted);
+    }
+
+    .toggle-btn button.sel-yes { background: var(--primary); color: white; }
+    .toggle-btn button.sel-no  { background: #e5e7eb; color: var(--text); }
+
+    .score-badge {
+      min-width: 40px;
+      text-align: right;
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+
+    .score-badge strong { color: var(--primary); font-size: 1rem; font-weight: 700; }
+
+    .divider { height: 1px; background: var(--border); margin: 0 1.5rem; }
+
+    .progress-wrap { padding: 1.2rem 1.5rem 0; }
+
+    .progress-track {
+      height: 8px;
+      background: #e5e9f5;
+      border-radius: 100px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      border-radius: 100px;
+      background: linear-gradient(90deg, var(--low), #84cc16, var(--mod), var(--high));
+      transition: width 0.5s cubic-bezier(0.4,0,0.2,1);
+      width: 0%;
+    }
+
+    .progress-labels {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 0.4rem;
+      font-size: 0.68rem;
+      color: var(--muted);
+    }
+
+    .result-panel {
+      margin: 1.2rem 1.5rem 1.2rem;
+      border-radius: 14px;
+      padding: 1.4rem 1.75rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+      transition: all 0.4s ease;
+      background: var(--low-bg);
+      border: 1.5px solid var(--low-border);
+    }
+
+    .result-panel.moderate { background: var(--mod-bg); border-color: var(--mod-border); }
+    .result-panel.high-risk { background: var(--high-bg); border-color: var(--high-border); }
+
+    .result-label {
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 0.25rem;
+    }
+
+    .result-score {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 3.4rem;
+      font-weight: 700;
+      color: var(--low);
+      line-height: 1;
+      transition: color 0.4s;
+    }
+
+    .result-panel.moderate .result-score { color: var(--mod); }
+    .result-panel.high-risk .result-score { color: var(--high); }
+
+    .result-right { text-align: right; }
+
+    .risk-badge {
+      display: inline-block;
+      padding: 0.32rem 1rem;
+      border-radius: 100px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      margin-bottom: 0.4rem;
+      background: #dcfce7;
+      color: var(--low);
+      border: 1px solid var(--low-border);
+      transition: all 0.3s;
+    }
+
+    .result-panel.moderate .risk-badge { background: #fef3c7; color: var(--mod); border-color: var(--mod-border); }
+    .result-panel.high-risk .risk-badge { background: #fee2e2; color: var(--high); border-color: var(--high-border); }
+
+    .mortality-pct {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .mortality-label { font-size: 0.72rem; color: var(--muted); }
+
+    .threshold-note {
+      margin: 0 1.5rem 1.2rem;
+      padding: 0.75rem 1.1rem;
+      border-radius: 10px;
+      background: #fffbeb;
+      border: 1px solid #fde68a;
+      font-size: 0.78rem;
+      color: #92400e;
+      display: flex;
+      align-items: flex-start;
+      gap: 0.5rem;
+      line-height: 1.5;
+    }
+
+    .btn-reset {
+      display: block;
+      width: calc(100% - 3rem);
+      margin: 0 1.5rem 1.5rem;
+      padding: 0.85rem;
+      border: 1.5px solid var(--border);
+      background: transparent;
+      color: var(--muted);
+      border-radius: 11px;
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.88rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-reset:hover { border-color: var(--primary); color: var(--primary); background: var(--primary-light); }
+
+    .interp-section {
+      margin-top: 1.4rem;
+      animation: fadeUp 0.6s ease 0.35s both;
+    }
+
+    .interp-inner { padding: 1.5rem; }
+
+    .interp-inner h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 1rem;
+    }
+
+    .interp-cols {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.75rem;
+    }
+
+    .interp-col-title {
+      text-align: center;
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.45rem;
+      border-radius: 8px;
+      margin-bottom: 0.3rem;
+    }
+
+    .interp-col-title.low { background: #dcfce7; color: var(--low); }
+    .interp-col-title.mod { background: #fef3c7; color: var(--mod); }
+    .interp-col-title.high { background: #fee2e2; color: var(--high); }
+
+    .interp-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.38rem 0.7rem;
+      border-radius: 7px;
+      font-size: 0.82rem;
+      margin-bottom: 0.2rem;
+      color: var(--muted);
+      transition: all 0.2s;
+    }
+
+    .interp-row .skor { font-weight: 700; }
+    .interp-row.low-row.active-row { background: #dcfce7; color: var(--low); font-weight: 600; box-shadow: 0 0 0 1.5px var(--low-border); }
+    .interp-row.mod-row.active-row { background: #fef3c7; color: var(--mod); font-weight: 600; box-shadow: 0 0 0 1.5px var(--mod-border); }
+    .interp-row.high-row.active-row { background: #fee2e2; color: var(--high); font-weight: 600; box-shadow: 0 0 0 1.5px var(--high-border); }
+
+    .footer {
+      text-align: center;
+      margin-top: 2.5rem;
+      font-size: 0.72rem;
+      color: var(--muted);
+      line-height: 1.8;
+      animation: fadeUp 0.6s ease 0.5s both;
+    }
+
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-16px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 560px) {
+      .result-panel { flex-direction: column; align-items: flex-start; }
+      .result-right { text-align: left; }
+      .interp-cols { grid-template-columns: 1fr; }
+      .score-item { flex-wrap: wrap; }
+      .item-right { width: 100%; justify-content: flex-end; }
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <div class="header">
+    <div class="chip">🔬 Clinical Scoring Tool</div>
+    <h1>CRABS-<span>90</span> Score</h1>
+    <p>Predicts 90-day mortality in liver cirrhosis patients. A score ≥4 may serve as a threshold for intensified clinical surveillance.</p>
+  </div>
+
+  <div class="card" style="animation: fadeUp 0.6s ease 0.1s both;">
+    <div class="card-header">
+      <h2>📋 Clinical Parameter Assessment</h2>
+    </div>
+
+    <div class="score-list" id="scoreList"></div>
+
+    <div class="divider"></div>
+
+    <div class="progress-wrap">
+      <div class="progress-track">
+        <div class="progress-fill" id="progressFill"></div>
+      </div>
+      <div class="progress-labels">
+        <span id="scoreLabel">Score: 0</span>
+        <span>Max: 8</span>
+      </div>
+    </div>
+
+    <div class="result-panel" id="resultPanel">
+      <div>
+        <div class="result-label">Total Score</div>
+        <div class="result-score" id="totalScore">0</div>
+      </div>
+      <div class="result-right">
+        <div class="risk-badge" id="riskBadge">✓ Low Risk</div>
+        <div class="mortality-pct" id="mortalityPct">3%</div>
+        <div class="mortality-label">90-day mortality probability</div>
+      </div>
+    </div>
+
+    <div class="threshold-note">
+      <span>⚡</span>
+      <span><strong>Clinical Note:</strong> Score ≥4 is the recommended threshold for intensified clinical surveillance and early intervention.</span>
+    </div>
+
+    <button class="btn-reset" onclick="resetAll()">↺ Reset All Parameters</button>
+  </div>
+
+  <div class="interp-section">
+    <div class="card">
+      <div class="interp-inner">
+        <h3>📊 Score Interpretation Table</h3>
+        <div class="interp-cols" id="interpCols"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    CRABS-90 Scoring System · For clinical and educational purposes only<br>
+    Does not replace professional clinical judgment
+  </div>
+</div>
+
+<script>
+  const items = [
+    {
+      id: 1,
+      label: 'ALT Serum',
+      sub: 'Scores 1 pt if value > 34.5 U/L',
+      type: 'numeric',
+      unit: 'U/L',
+      threshold: 34.5,
+      direction: 'above',
+      points: 1,
+    },
+    {
+      id: 2,
+      label: 'Albumin Serum',
+      sub: 'Scores 1 pt if value < 2.65 g/dL',
+      type: 'numeric',
+      unit: 'g/dL',
+      threshold: 2.65,
+      direction: 'below',
+      points: 1,
+    },
+    {
+      id: 3,
+      label: 'NLR (Neutrophil-Lymphocyte Ratio)',
+      sub: 'Scores 2 pts if value > 5.6',
+      type: 'numeric',
+      unit: '',
+      threshold: 5.6,
+      direction: 'above',
+      points: 2,
+    },
+    {
+      id: 4,
+      label: 'Chronic Kidney Disease (CKD)',
+      sub: 'Presence: Yes = 1 pt, No = 0 pt',
+      type: 'toggle',
+      points: 1,
+    },
+    {
+      id: 5,
+      label: 'Hepatocellular Carcinoma (HCC)',
+      sub: 'Presence: Yes = 1 pt, No = 0 pt',
+      type: 'toggle',
+      points: 1,
+    },
+    {
+      id: 6,
+      label: 'Hepatic Encephalopathy',
+      sub: 'Presence: Yes = 2 pts, No = 0 pt',
+      type: 'toggle',
+      points: 2,
+    },
+  ];
+
+  const interp = [
+    { score: 0, pct: '3%',    risk: 'low' },
+    { score: 1, pct: '8.4%',  risk: 'low' },
+    { score: 2, pct: '21.2%', risk: 'low' },
+    { score: 3, pct: '44.1%', risk: 'low' },
+    { score: 4, pct: '69.9%', risk: 'mod' },
+    { score: 5, pct: '87.2%', risk: 'mod' },
+    { score: 6, pct: '95.2%', risk: 'mod' },
+    { score: 7, pct: '98.3%', risk: 'high' },
+    { score: 8, pct: '99.4%', risk: 'high' },
+  ];
+
+  const state = {};
+  items.forEach(i => { state[i.id] = i.type === 'numeric' ? '' : null; });
+
+  function getItemScore(item) {
+    if (item.type === 'toggle') return state[item.id] === true ? item.points : 0;
+    const val = parseFloat(state[item.id]);
+    if (isNaN(val)) return 0;
+    if (item.direction === 'above') return val > item.threshold ? item.points : 0;
+    if (item.direction === 'below') return val < item.threshold ? item.points : 0;
+    return 0;
+  }
+
+  function isItemActive(item) {
+    if (item.type === 'toggle') return state[item.id] === true;
+    const val = parseFloat(state[item.id]);
+    if (isNaN(val)) return false;
+    return item.direction === 'above' ? val > item.threshold : val < item.threshold;
+  }
+
+  function renderItems() {
+    document.getElementById('scoreList').innerHTML = items.map((item, idx) => {
+      const active = isItemActive(item);
+      const pts = getItemScore(item);
+
+      let inputHtml = '';
+      if (item.type === 'numeric') {
+        inputHtml = `
+          <div class="input-numeric">
+            <input
+              type="number"
+              step="0.01"
+              min="0"
+              placeholder="—"
+              value="${state[item.id]}"
+              oninput="setNumeric(${item.id}, this.value)"
+            />
+            ${item.unit ? `<span class="unit">${item.unit}</span>` : ''}
+          </div>`;
+      } else {
+        inputHtml = `
+          <div class="toggle-btn">
+            <button onclick="setToggle(${item.id}, true)" class="${state[item.id] === true ? 'sel-yes' : ''}">Yes</button>
+            <button onclick="setToggle(${item.id}, false)" class="${state[item.id] === false ? 'sel-no' : ''}">No</button>
+          </div>`;
+      }
+
+      return `
+        <div class="score-item ${active ? 'active' : ''}" style="animation-delay:${0.1+idx*0.05}s">
+          <div class="item-left">
+            <div class="item-num">${item.id}</div>
+            <div class="item-label">
+              ${item.label}
+              <small>${item.sub}</small>
+            </div>
+          </div>
+          <div class="item-right">
+            ${inputHtml}
+            <div class="score-badge">
+              ${pts > 0 ? `+<strong>${pts}</strong>` : `<span style="color:#c0cce8">${item.points}pt</span>`}
+            </div>
+          </div>
+        </div>`;
+    }).join('');
+  }
+
+  function calcTotal() {
+    return items.reduce((s, i) => s + getItemScore(i), 0);
+  }
+
+  function updateResult() {
+    const total = calcTotal();
+    const row = interp.find(i => i.score === total) || interp[interp.length - 1];
+    const risk = total >= 7 ? 'high' : total >= 4 ? 'mod' : 'low';
+
+    document.getElementById('totalScore').textContent = total;
+    document.getElementById('scoreLabel').textContent = `Score: ${total}`;
+    document.getElementById('progressFill').style.width = `${(total / 8) * 100}%`;
+
+    const panel = document.getElementById('resultPanel');
+    panel.className = 'result-panel' + (risk === 'high' ? ' high-risk' : risk === 'mod' ? ' moderate' : '');
+
+    document.getElementById('riskBadge').textContent =
+      risk === 'high' ? '⚠ High Risk' : risk === 'mod' ? '◈ Moderate Risk' : '✓ Low Risk';
+    document.getElementById('mortalityPct').textContent = row ? row.pct : '-';
+
+    renderInterpTable(total);
+  }
+
+  function renderInterpTable(active) {
+    const low  = interp.filter(i => i.risk === 'low');
+    const mod  = interp.filter(i => i.risk === 'mod');
+    const high = interp.filter(i => i.risk === 'high');
+
+    function rows(arr, cls) {
+      return arr.map(i => `
+        <div class="interp-row ${cls}-row ${i.score === active ? 'active-row' : ''}">
+          <span class="skor">${i.score}</span>
+          <span>${i.pct}</span>
+        </div>`).join('');
+    }
+
+    document.getElementById('interpCols').innerHTML = `
+      <div>
+        <div class="interp-col-title low">🟢 Low (0–3)</div>
+        ${rows(low, 'low')}
+      </div>
+      <div>
+        <div class="interp-col-title mod">🟡 Moderate (4–6)</div>
+        ${rows(mod, 'mod')}
+      </div>
+      <div>
+        <div class="interp-col-title high">🔴 High (7–8)</div>
+        ${rows(high, 'high')}
+      </div>`;
+  }
+
+  function setNumeric(id, val) {
+    state[id] = val;
+    // Update only the score badge for this item (avoid re-rendering the input itself)
+    const item = items.find(i => i.id === id);
+    const pts = getItemScore(item);
+    const active = isItemActive(item);
+    const row = document.querySelector(`#scoreList .score-item:nth-child(${items.indexOf(item) + 1})`);
+    if (row) {
+      row.classList.toggle('active', active);
+      const badge = row.querySelector('.score-badge');
+      if (badge) badge.innerHTML = pts > 0 ? `+<strong>${pts}</strong>` : `<span style="color:#c0cce8">${item.points}pt</span>`;
+    }
+    updateResult();
+  }
+
+  function setToggle(id, val) {
+    state[id] = val;
+    renderItems();
+    updateResult();
+  }
+
+  function resetAll() {
+    items.forEach(i => { state[i.id] = i.type === 'numeric' ? '' : null; });
+    renderItems();
+    updateResult();
+  }
+
+  renderItems();
+  updateResult();
+</script>
+</body>
+</html>
