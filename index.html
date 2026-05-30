@@ -4,234 +4,350 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>CRABS-90 Scoring System</title>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg: #f0f4ff;
-      --surface: #ffffff;
-      --surface2: #f7f9ff;
-      --border: #d0d9f0;
-      --primary: #2563eb;
-      --primary-light: #eff4ff;
-      --primary-mid: #bfcffd;
-      --text: #1e2d4a;
-      --muted: #6b7a99;
-      --low: #16a34a;
-      --low-bg: #f0fdf4;
-      --low-border: #bbf7d0;
-      --mod: #d97706;
-      --mod-bg: #fffbeb;
-      --mod-border: #fde68a;
-      --high: #dc2626;
-      --high-bg: #fff5f5;
-      --high-border: #fecaca;
+      --maroon:       #7b1c2b;
+      --maroon-deep:  #540f1b;
+      --maroon-mid:   #9d2c3e;
+      --maroon-light: #c0435a;
+      --maroon-pale:  #f7ecee;
+      --maroon-glow:  rgba(123,28,43,0.18);
+      --gold:         #c9922e;
+      --gold-light:   #e8c07a;
+      --gold-pale:    #fdf5e7;
+      --cream:        #fdf8f4;
+      --parchment:    #f5ede6;
+      --ink:          #1f1218;
+      --ink-mid:      #4a2f38;
+      --muted:        #8a6a72;
+      --border:       #e0c8cc;
+      --border-strong:#c9a8b2;
+      --surface:      #ffffff;
+      --low:          #2d7a4a;
+      --low-bg:       #eef8f2;
+      --low-border:   #a8dbbf;
+      --mod:          #b87a10;
+      --mod-bg:       #fdf5e4;
+      --mod-border:   #e8c07a;
+      --high:         #8b1a1a;
+      --high-bg:      #fdf0f0;
+      --high-border:  #e8a0a0;
     }
 
     body {
-      font-family: 'Outfit', sans-serif;
-      background: var(--bg);
-      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      background: var(--cream);
+      color: var(--ink);
       min-height: 100vh;
-      padding: 2.5rem 1rem 4rem;
+      padding: 0 0 5rem;
     }
 
-    body::before {
+    /* ── HERO HEADER ── */
+    .hero {
+      background: linear-gradient(145deg, var(--maroon-deep) 0%, var(--maroon) 45%, #a82a40 100%);
+      padding: 3.5rem 2rem 5rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
       content: '';
-      position: fixed;
+      position: absolute;
       inset: 0;
       background-image:
-        linear-gradient(rgba(37,99,235,0.04) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(37,99,235,0.04) 1px, transparent 1px);
-      background-size: 36px 36px;
-      pointer-events: none;
-      z-index: 0;
+        radial-gradient(ellipse 80% 60% at 80% 20%, rgba(201,146,46,0.18) 0%, transparent 60%),
+        radial-gradient(ellipse 50% 40% at 10% 80%, rgba(255,255,255,0.05) 0%, transparent 60%);
     }
-
-    .container {
+    /* Decorative liver silhouette using CSS shapes */
+    .hero::after {
+      content: '';
+      position: absolute;
+      right: -2rem;
+      top: -2rem;
+      width: 260px;
+      height: 200px;
+      background: radial-gradient(ellipse 60% 50% at 45% 55%, rgba(255,255,255,0.06) 0%, transparent 70%);
+      border-radius: 55% 45% 50% 60% / 50% 40% 60% 50%;
+      border: 1px solid rgba(255,255,255,0.08);
+      pointer-events: none;
+    }
+    .hero-inner {
       max-width: 760px;
       margin: 0 auto;
       position: relative;
       z-index: 1;
     }
-
-    .header {
-      text-align: center;
-      margin-bottom: 2.5rem;
-      animation: fadeDown 0.6s ease both;
-    }
-
-    .chip {
+    .hero-chip {
       display: inline-flex;
       align-items: center;
-      gap: 0.4rem;
-      background: var(--primary-light);
-      border: 1px solid var(--primary-mid);
-      color: var(--primary);
-      font-size: 0.7rem;
+      gap: 0.45rem;
+      background: rgba(201,146,46,0.2);
+      border: 1px solid rgba(201,146,46,0.45);
+      color: var(--gold-light);
+      font-size: 0.68rem;
       font-weight: 600;
-      letter-spacing: 0.15em;
+      letter-spacing: 0.18em;
       text-transform: uppercase;
-      padding: 0.35rem 1rem;
+      padding: 0.35rem 1.1rem;
       border-radius: 100px;
-      margin-bottom: 1.1rem;
+      margin-bottom: 1.4rem;
     }
-
-    .header h1 {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(2.4rem, 7vw, 3.4rem);
-      font-weight: 700;
-      color: var(--text);
-      line-height: 1.1;
-      margin-bottom: 0.5rem;
+    .hero-chip svg { width: 12px; height: 12px; }
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.6rem, 8vw, 4rem);
+      font-weight: 800;
+      color: white;
+      line-height: 1.05;
+      margin-bottom: 0.6rem;
+      letter-spacing: -0.01em;
     }
-
-    .header h1 span { color: var(--primary); }
-
-    .header p {
-      color: var(--muted);
+    .hero h1 .accent {
+      color: var(--gold-light);
+      position: relative;
+    }
+    .hero-sub {
+      color: rgba(255,255,255,0.72);
       font-size: 0.9rem;
       font-weight: 300;
-      max-width: 480px;
-      margin: 0 auto;
-      line-height: 1.65;
+      max-width: 520px;
+      line-height: 1.7;
+      margin-bottom: 0.4rem;
+    }
+    .hero-author {
+      font-size: 0.75rem;
+      color: rgba(255,255,255,0.45);
+      font-style: italic;
+      margin-top: 1rem;
     }
 
+    /* Stats strip pinned below hero */
+    .stats-strip {
+      background: var(--maroon-deep);
+      border-top: 1px solid rgba(201,146,46,0.3);
+    }
+    .stats-inner {
+      max-width: 760px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      divide-x: 1px solid rgba(255,255,255,0.1);
+    }
+    .stat-box {
+      padding: 0.85rem 1.4rem;
+      border-right: 1px solid rgba(255,255,255,0.08);
+      text-align: center;
+    }
+    .stat-box:last-child { border-right: none; }
+    .stat-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.45rem;
+      font-weight: 700;
+      color: var(--gold-light);
+      line-height: 1;
+    }
+    .stat-lbl {
+      font-size: 0.65rem;
+      color: rgba(255,255,255,0.45);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-top: 0.2rem;
+    }
+
+    /* ── MAIN CONTENT ── */
+    .main {
+      max-width: 760px;
+      margin: -2.5rem auto 0;
+      padding: 0 1rem;
+      position: relative;
+      z-index: 2;
+    }
+
+    /* ── CARD ── */
     .card {
       background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: 18px;
+      border-radius: 20px;
       overflow: hidden;
-      box-shadow: 0 4px 24px rgba(37,99,235,0.08), 0 1px 4px rgba(0,0,0,0.04);
+      box-shadow:
+        0 8px 32px rgba(123,28,43,0.1),
+        0 2px 8px rgba(0,0,0,0.04),
+        0 0 0 1px rgba(255,255,255,0.6) inset;
+      margin-bottom: 1.4rem;
     }
-
     .card-header {
-      background: linear-gradient(135deg, var(--primary) 0%, #3b82f6 100%);
-      padding: 1.2rem 1.75rem;
+      background: linear-gradient(135deg, var(--maroon) 0%, var(--maroon-mid) 100%);
+      padding: 1.1rem 1.75rem;
       display: flex;
       align-items: center;
-      gap: 0.75rem;
+      gap: 0.7rem;
+      position: relative;
+      overflow: hidden;
     }
-
+    .card-header::after {
+      content: '';
+      position: absolute;
+      right: -1rem;
+      top: -1rem;
+      width: 100px;
+      height: 80px;
+      background: rgba(255,255,255,0.05);
+      border-radius: 50%;
+    }
+    .card-header-icon {
+      width: 32px;
+      height: 32px;
+      background: rgba(255,255,255,0.15);
+      border-radius: 9px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      flex-shrink: 0;
+    }
     .card-header h2 {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.15rem;
+      font-family: 'Playfair Display', serif;
+      font-size: 1.05rem;
       font-weight: 600;
       color: white;
-      letter-spacing: 0.02em;
+      letter-spacing: 0.01em;
+    }
+    /* Gold accent line under header */
+    .card-header-line {
+      height: 2px;
+      background: linear-gradient(90deg, var(--gold) 0%, transparent 60%);
     }
 
-    .score-list {
-      padding: 1.25rem 1.5rem;
+    /* ── PATIENT FORM ── */
+    .patient-form {
+      padding: 1.4rem 1.6rem;
       display: flex;
       flex-direction: column;
-      gap: 0.65rem;
+      gap: 0.85rem;
+      background: var(--parchment);
+    }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.85rem; }
+    .form-group { display: flex; flex-direction: column; gap: 0.3rem; }
+    .form-group label {
+      font-size: 0.68rem;
+      font-weight: 600;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+    .form-group input {
+      border: 1.5px solid var(--border-strong);
+      border-radius: 10px;
+      padding: 0.6rem 0.95rem;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.875rem;
+      color: var(--ink);
+      background: white;
+      outline: none;
+      width: 100%;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .form-group input:focus {
+      border-color: var(--maroon);
+      box-shadow: 0 0 0 3px rgba(123,28,43,0.1);
     }
 
+    /* ── SCORE ITEMS ── */
+    .score-list {
+      padding: 1.2rem 1.4rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+      background: var(--parchment);
+    }
     .score-item {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0.9rem 1.1rem;
-      border-radius: 12px;
+      padding: 0.85rem 1.1rem;
+      border-radius: 13px;
       border: 1.5px solid var(--border);
-      background: var(--surface2);
-      transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+      background: white;
       gap: 1rem;
-      animation: fadeUp 0.4s ease both;
+      transition: all 0.22s ease;
+      cursor: default;
     }
-
-    .score-item:nth-child(1){animation-delay:0.1s}
-    .score-item:nth-child(2){animation-delay:0.15s}
-    .score-item:nth-child(3){animation-delay:0.2s}
-    .score-item:nth-child(4){animation-delay:0.25s}
-    .score-item:nth-child(5){animation-delay:0.3s}
-    .score-item:nth-child(6){animation-delay:0.35s}
-
-    .score-item:hover { border-color: var(--primary-mid); box-shadow: 0 2px 10px rgba(37,99,235,0.08); }
+    .score-item:hover {
+      border-color: var(--border-strong);
+      box-shadow: 0 3px 14px rgba(123,28,43,0.08);
+      transform: translateY(-1px);
+    }
     .score-item.active {
-      background: var(--primary-light);
-      border-color: #93c5fd;
-      box-shadow: 0 2px 12px rgba(37,99,235,0.12);
+      background: linear-gradient(135deg, #fff5f6 0%, #fdeef0 100%);
+      border-color: var(--maroon-light);
+      box-shadow: 0 3px 14px rgba(123,28,43,0.15), 0 0 0 1px rgba(192,67,90,0.2) inset;
+      transform: translateY(-1px);
     }
-
-    .item-left {
-      display: flex;
-      align-items: flex-start;
-      gap: 0.8rem;
-      flex: 1;
-    }
-
+    .item-left { display: flex; align-items: flex-start; gap: 0.85rem; flex: 1; }
     .item-num {
-      width: 26px; height: 26px;
-      border-radius: 7px;
-      background: var(--primary);
+      width: 28px;
+      height: 28px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, var(--maroon) 0%, var(--maroon-mid) 100%);
       color: white;
-      font-size: 0.72rem;
+      font-size: 0.7rem;
       font-weight: 700;
       display: flex;
       align-items: center;
       justify-content: center;
       flex-shrink: 0;
-      margin-top: 2px;
+      margin-top: 1px;
+      box-shadow: 0 2px 6px rgba(123,28,43,0.3);
     }
-
+    .score-item.active .item-num {
+      background: linear-gradient(135deg, var(--maroon-deep) 0%, var(--maroon) 100%);
+    }
     .item-label {
-      font-size: 0.875rem;
+      font-size: 0.865rem;
       font-weight: 500;
-      color: var(--text);
+      color: var(--ink);
       line-height: 1.4;
     }
-
     .item-label small {
       display: block;
       color: var(--muted);
-      font-size: 0.74rem;
+      font-size: 0.72rem;
       font-weight: 400;
       margin-top: 0.15rem;
     }
-
-    .item-right {
-      display: flex;
-      align-items: center;
-      gap: 0.7rem;
-      flex-shrink: 0;
-    }
+    .item-right { display: flex; align-items: center; gap: 0.7rem; flex-shrink: 0; }
 
     /* Numeric input */
     .input-numeric {
       display: flex;
       align-items: center;
       background: white;
-      border: 1.5px solid var(--border);
+      border: 1.5px solid var(--border-strong);
       border-radius: 10px;
-      padding: 0.32rem 0.6rem;
-      transition: border-color 0.2s, box-shadow 0.2s;
+      padding: 0.32rem 0.65rem;
       gap: 0.3rem;
+      transition: border-color 0.2s, box-shadow 0.2s;
     }
-
     .input-numeric:focus-within {
-      border-color: var(--primary);
-      box-shadow: 0 0 0 3px rgba(37,99,235,0.1);
+      border-color: var(--maroon);
+      box-shadow: 0 0 0 3px rgba(123,28,43,0.1);
     }
-
     .input-numeric input {
       width: 68px;
       border: none;
       outline: none;
-      font-family: 'Outfit', sans-serif;
-      font-size: 0.88rem;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.875rem;
       font-weight: 500;
-      color: var(--text);
+      color: var(--ink);
       background: transparent;
       text-align: center;
     }
-
-    .input-numeric input::placeholder { color: #c0cce8; }
-
+    .input-numeric input::placeholder { color: #d0b8bc; }
     .input-numeric .unit {
-      font-size: 0.7rem;
+      font-size: 0.68rem;
       color: var(--muted);
       white-space: nowrap;
       border-left: 1px solid var(--border);
@@ -241,230 +357,285 @@
     /* Toggle */
     .toggle-btn {
       display: flex;
-      border: 1.5px solid var(--border);
+      border: 1.5px solid var(--border-strong);
       border-radius: 10px;
       overflow: hidden;
       background: white;
     }
-
     .toggle-btn button {
       border: none;
       background: transparent;
-      padding: 0.42rem 0.9rem;
+      padding: 0.42rem 0.95rem;
       font-size: 0.78rem;
       font-weight: 600;
-      font-family: 'Outfit', sans-serif;
+      font-family: 'DM Sans', sans-serif;
       cursor: pointer;
-      transition: background 0.15s, color 0.15s;
       color: var(--muted);
+      transition: background 0.18s, color 0.18s;
+    }
+    .toggle-btn button.sel-yes {
+      background: linear-gradient(135deg, var(--maroon) 0%, var(--maroon-mid) 100%);
+      color: white;
+    }
+    .toggle-btn button.sel-no {
+      background: #ede9e9;
+      color: var(--ink-mid);
     }
 
-    .toggle-btn button.sel-yes { background: var(--primary); color: white; }
-    .toggle-btn button.sel-no  { background: #e5e7eb; color: var(--text); }
+    /* Score badge */
+    .score-badge { min-width: 42px; text-align: right; font-size: 0.78rem; color: var(--muted); }
+    .score-badge strong { color: var(--maroon); font-size: 1.05rem; font-weight: 700; }
 
-    .score-badge {
-      min-width: 40px;
-      text-align: right;
-      font-size: 0.78rem;
-      color: var(--muted);
-    }
-
-    .score-badge strong { color: var(--primary); font-size: 1rem; font-weight: 700; }
-
-    .divider { height: 1px; background: var(--border); margin: 0 1.5rem; }
-
-    .progress-wrap { padding: 1.2rem 1.5rem 0; }
-
+    /* ── PROGRESS BAR ── */
+    .divider { height: 1px; background: var(--border); margin: 0; }
+    .progress-wrap { padding: 1.3rem 1.6rem 0.2rem; background: var(--parchment); }
+    .progress-labels { display: flex; justify-content: space-between; margin-bottom: 0.55rem; font-size: 0.72rem; color: var(--muted); }
     .progress-track {
-      height: 8px;
-      background: #e5e9f5;
+      height: 10px;
+      background: rgba(123,28,43,0.1);
       border-radius: 100px;
       overflow: hidden;
     }
-
     .progress-fill {
       height: 100%;
       border-radius: 100px;
-      background: linear-gradient(90deg, var(--low), #84cc16, var(--mod), var(--high));
-      transition: width 0.5s cubic-bezier(0.4,0,0.2,1);
+      background: linear-gradient(90deg,
+        var(--low) 0%,
+        #8bc34a 28%,
+        var(--gold) 55%,
+        var(--maroon-light) 78%,
+        var(--maroon-deep) 100%
+      );
+      transition: width 0.55s cubic-bezier(0.4,0,0.2,1);
       width: 0%;
+      position: relative;
+    }
+    .progress-fill::after {
+      content: '';
+      position: absolute;
+      right: 0; top: 0; bottom: 0;
+      width: 12px;
+      background: rgba(255,255,255,0.5);
+      border-radius: 100px;
+      filter: blur(2px);
     }
 
-    .progress-labels {
-      display: flex;
-      justify-content: space-between;
-      margin-top: 0.4rem;
-      font-size: 0.68rem;
-      color: var(--muted);
-    }
-
+    /* ── RESULT PANEL ── */
     .result-panel {
-      margin: 1.2rem 1.5rem 1.2rem;
-      border-radius: 14px;
-      padding: 1.4rem 1.75rem;
+      margin: 1.2rem 1.4rem;
+      border-radius: 16px;
+      padding: 1.5rem 1.8rem;
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 1rem;
       flex-wrap: wrap;
-      transition: all 0.4s ease;
       background: var(--low-bg);
       border: 1.5px solid var(--low-border);
+      position: relative;
+      overflow: hidden;
+      transition: all 0.4s ease;
     }
-
+    .result-panel::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 5px;
+      background: var(--low);
+      border-radius: 2px 0 0 2px;
+    }
     .result-panel.moderate { background: var(--mod-bg); border-color: var(--mod-border); }
+    .result-panel.moderate::before { background: var(--mod); }
     .result-panel.high-risk { background: var(--high-bg); border-color: var(--high-border); }
-
+    .result-panel.high-risk::before { background: var(--maroon); }
     .result-label {
-      font-size: 0.68rem;
+      font-size: 0.66rem;
       font-weight: 600;
-      letter-spacing: 0.12em;
+      letter-spacing: 0.13em;
       text-transform: uppercase;
       color: var(--muted);
       margin-bottom: 0.25rem;
     }
-
     .result-score {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 3.4rem;
-      font-weight: 700;
+      font-family: 'Playfair Display', serif;
+      font-size: 3.8rem;
+      font-weight: 800;
       color: var(--low);
       line-height: 1;
-      transition: color 0.4s;
     }
-
     .result-panel.moderate .result-score { color: var(--mod); }
-    .result-panel.high-risk .result-score { color: var(--high); }
-
+    .result-panel.high-risk .result-score { color: var(--maroon); }
     .result-right { text-align: right; }
-
     .risk-badge {
       display: inline-block;
-      padding: 0.32rem 1rem;
+      padding: 0.3rem 1.1rem;
       border-radius: 100px;
-      font-size: 0.8rem;
+      font-size: 0.78rem;
       font-weight: 700;
-      margin-bottom: 0.4rem;
-      background: #dcfce7;
+      margin-bottom: 0.45rem;
+      background: #d1f0df;
       color: var(--low);
       border: 1px solid var(--low-border);
-      transition: all 0.3s;
     }
-
-    .result-panel.moderate .risk-badge { background: #fef3c7; color: var(--mod); border-color: var(--mod-border); }
-    .result-panel.high-risk .risk-badge { background: #fee2e2; color: var(--high); border-color: var(--high-border); }
-
+    .result-panel.moderate .risk-badge { background: #fdefc7; color: var(--mod); border-color: var(--mod-border); }
+    .result-panel.high-risk .risk-badge { background: #fddede; color: var(--maroon); border-color: var(--high-border); }
     .mortality-pct {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.75rem;
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
       font-weight: 700;
-      color: var(--text);
+      color: var(--ink);
     }
+    .mortality-label { font-size: 0.7rem; color: var(--muted); }
 
-    .mortality-label { font-size: 0.72rem; color: var(--muted); }
-
+    /* ── THRESHOLD NOTE ── */
     .threshold-note {
-      margin: 0 1.5rem 1.2rem;
-      padding: 0.75rem 1.1rem;
-      border-radius: 10px;
-      background: #fffbeb;
-      border: 1px solid #fde68a;
+      margin: 0 1.4rem 1.2rem;
+      padding: 0.85rem 1.15rem;
+      border-radius: 11px;
+      background: linear-gradient(135deg, rgba(123,28,43,0.05) 0%, rgba(201,146,46,0.06) 100%);
+      border: 1px solid var(--border-strong);
       font-size: 0.78rem;
-      color: #92400e;
+      color: var(--ink-mid);
       display: flex;
       align-items: flex-start;
-      gap: 0.5rem;
-      line-height: 1.5;
+      gap: 0.55rem;
+      line-height: 1.55;
+    }
+    .threshold-icon {
+      width: 20px;
+      height: 20px;
+      background: var(--maroon);
+      border-radius: 5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-size: 0.7rem;
+      margin-top: 1px;
     }
 
+    /* ── BUTTONS ── */
+    .btn-save {
+      width: calc(100% - 2.8rem);
+      margin: 0 1.4rem 0.7rem;
+      padding: 0.95rem;
+      border: none;
+      background: linear-gradient(135deg, var(--maroon-deep) 0%, var(--maroon) 50%, var(--maroon-mid) 100%);
+      color: white;
+      border-radius: 12px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      box-shadow: 0 4px 16px rgba(123,28,43,0.3), 0 1px 4px rgba(0,0,0,0.1);
+      transition: transform 0.18s, box-shadow 0.18s, opacity 0.18s;
+    }
+    .btn-save:hover { transform: translateY(-1px); box-shadow: 0 6px 22px rgba(123,28,43,0.38); }
+    .btn-save:active { transform: translateY(0); }
+    .btn-save:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
     .btn-reset {
       display: block;
-      width: calc(100% - 3rem);
-      margin: 0 1.5rem 1.5rem;
-      padding: 0.85rem;
-      border: 1.5px solid var(--border);
+      width: calc(100% - 2.8rem);
+      margin: 0 1.4rem 1.6rem;
+      padding: 0.88rem;
+      border: 1.5px solid var(--border-strong);
       background: transparent;
       color: var(--muted);
-      border-radius: 11px;
-      font-family: 'Outfit', sans-serif;
+      border-radius: 12px;
+      font-family: 'DM Sans', sans-serif;
       font-size: 0.88rem;
       font-weight: 500;
       cursor: pointer;
       transition: all 0.2s;
     }
+    .btn-reset:hover { border-color: var(--maroon); color: var(--maroon); background: var(--maroon-pale); }
 
-    .btn-reset:hover { border-color: var(--primary); color: var(--primary); background: var(--primary-light); }
-
-    .interp-section {
-      margin-top: 1.4rem;
-      animation: fadeUp 0.6s ease 0.35s both;
-    }
-
-    .interp-inner { padding: 1.5rem; }
-
+    /* ── INTERP TABLE ── */
+    .interp-inner { padding: 1.5rem; background: var(--parchment); }
     .interp-inner h3 {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.2rem;
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
       font-weight: 600;
-      color: var(--text);
+      color: var(--ink);
       margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
     }
-
-    .interp-cols {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 0.75rem;
-    }
-
+    .interp-cols { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.85rem; }
+    .interp-col { background: white; border-radius: 12px; border: 1px solid var(--border); overflow: hidden; }
     .interp-col-title {
       text-align: center;
-      font-size: 0.68rem;
+      font-size: 0.66rem;
       font-weight: 700;
-      letter-spacing: 0.1em;
+      letter-spacing: 0.12em;
       text-transform: uppercase;
-      padding: 0.45rem;
-      border-radius: 8px;
-      margin-bottom: 0.3rem;
+      padding: 0.6rem;
+      margin: 0;
     }
-
-    .interp-col-title.low { background: #dcfce7; color: var(--low); }
-    .interp-col-title.mod { background: #fef3c7; color: var(--mod); }
-    .interp-col-title.high { background: #fee2e2; color: var(--high); }
-
+    .interp-col-title.low { background: #d1f0df; color: var(--low); }
+    .interp-col-title.mod { background: #fdefc7; color: var(--mod); }
+    .interp-col-title.high { background: #fddede; color: var(--maroon); }
+    .interp-rows { padding: 0.4rem; }
     .interp-row {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 0.38rem 0.7rem;
-      border-radius: 7px;
-      font-size: 0.82rem;
-      margin-bottom: 0.2rem;
+      padding: 0.42rem 0.75rem;
+      border-radius: 8px;
+      font-size: 0.81rem;
+      margin-bottom: 0.15rem;
       color: var(--muted);
-      transition: all 0.2s;
     }
+    .interp-row .skor { font-weight: 600; color: var(--ink-mid); }
+    .interp-row.low-row.active-row { background: #d1f0df; color: var(--low); font-weight: 600; }
+    .interp-row.low-row.active-row .skor { color: var(--low); }
+    .interp-row.mod-row.active-row { background: #fdefc7; color: var(--mod); font-weight: 600; }
+    .interp-row.mod-row.active-row .skor { color: var(--mod); }
+    .interp-row.high-row.active-row { background: #fddede; color: var(--maroon); font-weight: 600; }
+    .interp-row.high-row.active-row .skor { color: var(--maroon); }
 
-    .interp-row .skor { font-weight: 700; }
-    .interp-row.low-row.active-row { background: #dcfce7; color: var(--low); font-weight: 600; box-shadow: 0 0 0 1.5px var(--low-border); }
-    .interp-row.mod-row.active-row { background: #fef3c7; color: var(--mod); font-weight: 600; box-shadow: 0 0 0 1.5px var(--mod-border); }
-    .interp-row.high-row.active-row { background: #fee2e2; color: var(--high); font-weight: 600; box-shadow: 0 0 0 1.5px var(--high-border); }
+    /* ── TOAST ── */
+    .toast {
+      position: fixed;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%) translateY(90px);
+      background: var(--ink);
+      color: white;
+      padding: 0.78rem 1.8rem;
+      border-radius: 100px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      box-shadow: 0 6px 24px rgba(0,0,0,0.25);
+      z-index: 999;
+      transition: transform 0.35s cubic-bezier(0.4,0,0.2,1), opacity 0.35s;
+      opacity: 0;
+      white-space: nowrap;
+    }
+    .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+    .toast.success { background: var(--low); }
+    .toast.error   { background: var(--maroon); }
 
+    /* ── FOOTER ── */
     .footer {
       text-align: center;
       margin-top: 2.5rem;
-      font-size: 0.72rem;
+      padding: 0 1rem;
+      font-size: 0.7rem;
       color: var(--muted);
-      line-height: 1.8;
-      animation: fadeUp 0.6s ease 0.5s both;
+      line-height: 1.9;
     }
-
-    @keyframes fadeDown {
-      from { opacity: 0; transform: translateY(-16px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(16px); }
-      to { opacity: 1; transform: translateY(0); }
+    .footer-divider {
+      width: 40px;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--maroon-light), transparent);
+      margin: 0 auto 1rem;
+      border-radius: 2px;
     }
 
     @media (max-width: 560px) {
@@ -473,38 +644,89 @@
       .interp-cols { grid-template-columns: 1fr; }
       .score-item { flex-wrap: wrap; }
       .item-right { width: 100%; justify-content: flex-end; }
+      .form-row { grid-template-columns: 1fr; }
+      .stats-inner { grid-template-columns: 1fr; }
+      .stat-box { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.08); }
     }
   </style>
 </head>
 <body>
-<div class="container">
 
-  <div class="header">
-    <div class="chip">🔬 Clinical Scoring Tool</div>
-    <h1>CRABS-<span>90</span> Score</h1>
-    <p>Predicts 90-day mortality in liver cirrhosis patients. A score ≥4 may serve as a threshold for intensified clinical surveillance.</p>
-<p>by : dr. Kadek Mercu Narapati Pamungkas and CRABS Team</p>
+<!-- ── HERO ── -->
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-chip">
+      <svg viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5" stroke="currentColor" stroke-width="1.5"/><path d="M6 3.5v3l1.5 1.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      Clinical Scoring Tool · Hepatologi
+    </div>
+    <h1>CRABS-<span class="accent">90</span></h1>
+    <p class="hero-sub">Prediksi mortalitas 90 hari pada pasien sirosis hati berdasarkan parameter klinis dan laboratorium terstandarisasi.</p>
+    <p class="hero-author">dr. Kadek Mercu Narapati Pamungkas &amp; CRABS Team</p>
+  </div>
+</div>
+
+<!-- Stats strip -->
+<div class="stats-strip">
+  <div class="stats-inner">
+    <div class="stat-box">
+      <div class="stat-num">8</div>
+      <div class="stat-lbl">Skor Maksimal</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-num">≥ 4</div>
+      <div class="stat-lbl">Threshold Intervensi</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-num">6</div>
+      <div class="stat-lbl">Parameter Klinis</div>
+    </div>
+  </div>
+</div>
+
+<!-- ── MAIN ── -->
+<div class="main">
+
+  <!-- Patient card -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-header-icon">👤</div>
+      <h2>Identitas Pasien</h2>
+    </div>
+    <div class="card-header-line"></div>
+    <div class="patient-form">
+      <div class="form-row">
+        <div class="form-group">
+          <label>Nama Pasien</label>
+          <input type="text" id="f-nama" placeholder="Nama lengkap pasien" />
+        </div>
+        <div class="form-group">
+          <label>No. Rekam Medis</label>
+          <input type="text" id="f-rm" placeholder="Nomor RM" />
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Tanggal Periksa</label>
+        <input type="date" id="f-tanggal" />
+      </div>
+    </div>
   </div>
 
-  <div class="card" style="animation: fadeUp 0.6s ease 0.1s both;">
+  <!-- Scoring card -->
+  <div class="card">
     <div class="card-header">
-      <h2>📋 Clinical Parameter Assessment</h2>
+      <div class="card-header-icon">🩺</div>
+      <h2>Parameter Klinis</h2>
     </div>
-
+    <div class="card-header-line"></div>
     <div class="score-list" id="scoreList"></div>
-
     <div class="divider"></div>
-
     <div class="progress-wrap">
-      <div class="progress-track">
-        <div class="progress-fill" id="progressFill"></div>
-      </div>
       <div class="progress-labels">
-        <span id="scoreLabel">Score: 0</span>
-        <span>Max: 8</span>
+        <span id="scoreLabel">Score: 0 / 8</span>
+        <span>0 — Low &nbsp;&nbsp; 4 — Moderate &nbsp;&nbsp; 7 — High</span>
       </div>
+      <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
     </div>
-
     <div class="result-panel" id="resultPanel">
       <div>
         <div class="result-label">Total Score</div>
@@ -513,245 +735,210 @@
       <div class="result-right">
         <div class="risk-badge" id="riskBadge">✓ Low Risk</div>
         <div class="mortality-pct" id="mortalityPct">3%</div>
-        <div class="mortality-label">90-day mortality probability</div>
+        <div class="mortality-label">Probabilitas mortalitas 90 hari</div>
       </div>
     </div>
-
     <div class="threshold-note">
-      <span>⚡</span>
-      <span><strong>Clinical Note:</strong> Score ≥4 is the recommended threshold for intensified clinical surveillance and early intervention.</span>
+      <div class="threshold-icon">⚡</div>
+      <span><strong>Catatan Klinis:</strong> Score ≥4 adalah threshold untuk pemantauan klinis intensif dan intervensi dini pada pasien sirosis hati.</span>
     </div>
-
-    <button class="btn-reset" onclick="resetAll()">↺ Reset All Parameters</button>
+    <button class="btn-save" id="btnSave" onclick="saveToSheets()">💾 &nbsp;Simpan ke Google Sheets</button>
+    <button class="btn-reset" onclick="resetAll()">↺ &nbsp;Reset Semua Parameter</button>
   </div>
 
-  <div class="interp-section">
-    <div class="card">
-      <div class="interp-inner">
-        <h3>📊 Score Interpretation Table</h3>
-        <div class="interp-cols" id="interpCols"></div>
-      </div>
+  <!-- Interpretation table -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-header-icon">📊</div>
+      <h2>Tabel Interpretasi Skor</h2>
+    </div>
+    <div class="card-header-line"></div>
+    <div class="interp-inner">
+      <div class="interp-cols" id="interpCols"></div>
     </div>
   </div>
 
   <div class="footer">
-    CRABS-90 Scoring System · For clinical and educational purposes only<br>
-    Does not replace professional clinical judgment
+    <div class="footer-divider"></div>
+    CRABS-90 Scoring System · Untuk keperluan klinis dan edukasi<br>
+    Tidak menggantikan penilaian klinis profesional<br>
+    © 2025 dr. Kadek Mercu Narapati Pamungkas
   </div>
 </div>
 
+<div class="toast" id="toast"></div>
+
 <script>
+  const SHEET_URL = "https://script.google.com/macros/s/AKfycbzjRqlpdIHEF_bFlULdMTvef6tQXAYp2vwqEO659POMQQcKwZhXXgQAzEK-1IqGx-8/exec";
+
   const items = [
-    {
-      id: 1,
-      label: 'ALT Serum',
-      sub: 'Scores 1 pt if value > 34.5 U/L',
-      type: 'numeric',
-      unit: 'U/L',
-      threshold: 34.5,
-      direction: 'above',
-      points: 1,
-    },
-    {
-      id: 2,
-      label: 'Albumin Serum',
-      sub: 'Scores 1 pt if value < 2.65 g/dL',
-      type: 'numeric',
-      unit: 'g/dL',
-      threshold: 2.65,
-      direction: 'below',
-      points: 1,
-    },
-    {
-      id: 3,
-      label: 'NLR (Neutrophil-Lymphocyte Ratio)',
-      sub: 'Scores 2 pts if value > 5.6',
-      type: 'numeric',
-      unit: '',
-      threshold: 5.6,
-      direction: 'above',
-      points: 2,
-    },
-    {
-      id: 4,
-      label: 'Chronic Kidney Disease (CKD)',
-      sub: 'Presence: Yes = 1 pt, No = 0 pt',
-      type: 'toggle',
-      points: 1,
-    },
-    {
-      id: 5,
-      label: 'Hepatocellular Carcinoma (HCC)',
-      sub: 'Presence: Yes = 1 pt, No = 0 pt',
-      type: 'toggle',
-      points: 1,
-    },
-    {
-      id: 6,
-      label: 'Hepatic Encephalopathy',
-      sub: 'Presence: Yes = 2 pts, No = 0 pt',
-      type: 'toggle',
-      points: 2,
-    },
+    { id: 1, label: 'ALT Serum', sub: 'Skor 1 poin jika nilai > 34.5 U/L', type: 'numeric', unit: 'U/L', threshold: 34.5, direction: 'above', points: 1 },
+    { id: 2, label: 'Albumin Serum', sub: 'Skor 1 poin jika nilai < 2.65 g/dL', type: 'numeric', unit: 'g/dL', threshold: 2.65, direction: 'below', points: 1 },
+    { id: 3, label: 'NLR (Neutrophil-Lymphocyte Ratio)', sub: 'Skor 2 poin jika nilai > 5.6', type: 'numeric', unit: '', threshold: 5.6, direction: 'above', points: 2 },
+    { id: 4, label: 'Chronic Kidney Disease (CKD)', sub: 'Ada: Ya = 1 poin, Tidak = 0 poin', type: 'toggle', points: 1 },
+    { id: 5, label: 'Hepatocellular Carcinoma (HCC)', sub: 'Ada: Ya = 1 poin, Tidak = 0 poin', type: 'toggle', points: 1 },
+    { id: 6, label: 'Ensefalopati Hepatik', sub: 'Ada: Ya = 2 poin, Tidak = 0 poin', type: 'toggle', points: 2 },
   ];
 
   const interp = [
-    { score: 0, pct: '3%',    risk: 'low' },
-    { score: 1, pct: '8.4%',  risk: 'low' },
-    { score: 2, pct: '21.2%', risk: 'low' },
-    { score: 3, pct: '44.1%', risk: 'low' },
-    { score: 4, pct: '69.9%', risk: 'mod' },
-    { score: 5, pct: '87.2%', risk: 'mod' },
-    { score: 6, pct: '95.2%', risk: 'mod' },
-    { score: 7, pct: '98.3%', risk: 'high' },
-    { score: 8, pct: '99.4%', risk: 'high' },
+    { score: 0, pct: '3%' },    { score: 1, pct: '8.4%' },
+    { score: 2, pct: '21.2%' }, { score: 3, pct: '44.1%' },
+    { score: 4, pct: '69.9%' }, { score: 5, pct: '87.2%' },
+    { score: 6, pct: '95.2%' }, { score: 7, pct: '98.3%' },
+    { score: 8, pct: '99.4%' },
   ];
 
-  const state = {};
-  items.forEach(i => { state[i.id] = i.type === 'numeric' ? '' : null; });
+  const rawVals  = { 1: '', 2: '', 3: '' };
+  const toggleVals = { 4: null, 5: null, 6: null };
 
-  function getItemScore(item) {
-    if (item.type === 'toggle') return state[item.id] === true ? item.points : 0;
-    const val = parseFloat(state[item.id]);
-    if (isNaN(val)) return 0;
-    if (item.direction === 'above') return val > item.threshold ? item.points : 0;
-    if (item.direction === 'below') return val < item.threshold ? item.points : 0;
-    return 0;
+  document.getElementById('f-tanggal').value = new Date().toISOString().split('T')[0];
+
+  function getNumericScore(item) {
+    const v = parseFloat(rawVals[item.id]);
+    if (isNaN(v)) return 0;
+    return item.direction === 'above' ? (v > item.threshold ? item.points : 0) : (v < item.threshold ? item.points : 0);
+  }
+  function isNumericActive(item) {
+    const v = parseFloat(rawVals[item.id]);
+    if (isNaN(v)) return false;
+    return item.direction === 'above' ? v > item.threshold : v < item.threshold;
+  }
+  function calcTotal() {
+    let t = 0;
+    items.forEach(item => {
+      if (item.type === 'numeric') t += getNumericScore(item);
+      else t += toggleVals[item.id] === true ? item.points : 0;
+    });
+    return t;
   }
 
-  function isItemActive(item) {
-    if (item.type === 'toggle') return state[item.id] === true;
-    const val = parseFloat(state[item.id]);
-    if (isNaN(val)) return false;
-    return item.direction === 'above' ? val > item.threshold : val < item.threshold;
-  }
-
-  function renderItems() {
-    document.getElementById('scoreList').innerHTML = items.map((item, idx) => {
-      const active = isItemActive(item);
-      const pts = getItemScore(item);
-
+  function buildItems() {
+    document.getElementById('scoreList').innerHTML = items.map(item => {
       let inputHtml = '';
       if (item.type === 'numeric') {
         inputHtml = `
           <div class="input-numeric">
-            <input
-              type="number"
-              step="0.01"
-              min="0"
-              placeholder="—"
-              value="${state[item.id]}"
-              oninput="setNumeric(${item.id}, this.value)"
-            />
+            <input type="text" inputmode="decimal" placeholder="—"
+              id="inp-${item.id}"
+              oninput="onNumericInput(${item.id}, this.value)" />
             ${item.unit ? `<span class="unit">${item.unit}</span>` : ''}
           </div>`;
       } else {
         inputHtml = `
-          <div class="toggle-btn">
-            <button onclick="setToggle(${item.id}, true)" class="${state[item.id] === true ? 'sel-yes' : ''}">Yes</button>
-            <button onclick="setToggle(${item.id}, false)" class="${state[item.id] === false ? 'sel-no' : ''}">No</button>
+          <div class="toggle-btn" id="tog-${item.id}">
+            <button id="tog-${item.id}-yes" onclick="setToggle(${item.id}, true)">Ya</button>
+            <button id="tog-${item.id}-no"  onclick="setToggle(${item.id}, false)">Tidak</button>
           </div>`;
       }
-
       return `
-        <div class="score-item ${active ? 'active' : ''}" style="animation-delay:${0.1+idx*0.05}s">
+        <div class="score-item" id="item-${item.id}">
           <div class="item-left">
             <div class="item-num">${item.id}</div>
-            <div class="item-label">
-              ${item.label}
-              <small>${item.sub}</small>
-            </div>
+            <div class="item-label">${item.label}<small>${item.sub}</small></div>
           </div>
           <div class="item-right">
             ${inputHtml}
-            <div class="score-badge">
-              ${pts > 0 ? `+<strong>${pts}</strong>` : `<span style="color:#c0cce8">${item.points}pt</span>`}
-            </div>
+            <div class="score-badge" id="badge-${item.id}"><span style="color:#d0b8bc">${item.points}pt</span></div>
           </div>
         </div>`;
     }).join('');
   }
 
-  function calcTotal() {
-    return items.reduce((s, i) => s + getItemScore(i), 0);
-  }
-
-  function updateResult() {
+  function refreshUI() {
     const total = calcTotal();
-    const row = interp.find(i => i.score === total) || interp[interp.length - 1];
+    items.forEach(item => {
+      const el = document.getElementById(`item-${item.id}`);
+      const badge = document.getElementById(`badge-${item.id}`);
+      let active = false, pts = 0;
+      if (item.type === 'numeric') {
+        active = isNumericActive(item);
+        pts = getNumericScore(item);
+      } else {
+        active = toggleVals[item.id] === true;
+        pts = active ? item.points : 0;
+        const yBtn = document.getElementById(`tog-${item.id}-yes`);
+        const nBtn = document.getElementById(`tog-${item.id}-no`);
+        if (yBtn) yBtn.className = toggleVals[item.id] === true ? 'sel-yes' : '';
+        if (nBtn) nBtn.className = toggleVals[item.id] === false ? 'sel-no' : '';
+      }
+      el.className = 'score-item' + (active ? ' active' : '');
+      badge.innerHTML = pts > 0 ? `+<strong>${pts}</strong>` : `<span style="color:#d0b8bc">${item.points}pt</span>`;
+    });
+
     const risk = total >= 7 ? 'high' : total >= 4 ? 'mod' : 'low';
-
+    const row = interp[total] || interp[interp.length - 1];
     document.getElementById('totalScore').textContent = total;
-    document.getElementById('scoreLabel').textContent = `Score: ${total}`;
+    document.getElementById('scoreLabel').textContent = `Score: ${total} / 8`;
     document.getElementById('progressFill').style.width = `${(total / 8) * 100}%`;
-
     const panel = document.getElementById('resultPanel');
     panel.className = 'result-panel' + (risk === 'high' ? ' high-risk' : risk === 'mod' ? ' moderate' : '');
-
     document.getElementById('riskBadge').textContent =
       risk === 'high' ? '⚠ High Risk' : risk === 'mod' ? '◈ Moderate Risk' : '✓ Low Risk';
     document.getElementById('mortalityPct').textContent = row ? row.pct : '-';
 
-    renderInterpTable(total);
-  }
-
-  function renderInterpTable(active) {
-    const low  = interp.filter(i => i.risk === 'low');
-    const mod  = interp.filter(i => i.risk === 'mod');
-    const high = interp.filter(i => i.risk === 'high');
-
+    // Interp table
+    const lowRows  = interp.filter((_,i) => i <= 3);
+    const modRows  = interp.filter((_,i) => i >= 4 && i <= 6);
+    const highRows = interp.filter((_,i) => i >= 7);
     function rows(arr, cls) {
-      return arr.map(i => `
-        <div class="interp-row ${cls}-row ${i.score === active ? 'active-row' : ''}">
-          <span class="skor">${i.score}</span>
-          <span>${i.pct}</span>
-        </div>`).join('');
+      return '<div class="interp-rows">' + arr.map(r => `
+        <div class="interp-row ${cls}-row ${r.score === total ? 'active-row' : ''}">
+          <span class="skor">Score ${r.score}</span><span>${r.pct}</span>
+        </div>`).join('') + '</div>';
     }
-
     document.getElementById('interpCols').innerHTML = `
-      <div>
-        <div class="interp-col-title low">🟢 Low (0–3)</div>
-        ${rows(low, 'low')}
-      </div>
-      <div>
-        <div class="interp-col-title mod">🟡 Moderate (4–6)</div>
-        ${rows(mod, 'mod')}
-      </div>
-      <div>
-        <div class="interp-col-title high">🔴 High (7–8)</div>
-        ${rows(high, 'high')}
-      </div>`;
+      <div class="interp-col"><div class="interp-col-title low">🟢 Low Risk (0–3)</div>${rows(lowRows,'low')}</div>
+      <div class="interp-col"><div class="interp-col-title mod">🟡 Moderate (4–6)</div>${rows(modRows,'mod')}</div>
+      <div class="interp-col"><div class="interp-col-title high">🔴 High Risk (7–8)</div>${rows(highRows,'high')}</div>`;
   }
 
-  function setNumeric(id, val) {
-    state[id] = val;
-    // Update only the score badge for this item (avoid re-rendering the input itself)
-    const item = items.find(i => i.id === id);
-    const pts = getItemScore(item);
-    const active = isItemActive(item);
-    const row = document.querySelector(`#scoreList .score-item:nth-child(${items.indexOf(item) + 1})`);
-    if (row) {
-      row.classList.toggle('active', active);
-      const badge = row.querySelector('.score-badge');
-      if (badge) badge.innerHTML = pts > 0 ? `+<strong>${pts}</strong>` : `<span style="color:#c0cce8">${item.points}pt</span>`;
-    }
-    updateResult();
-  }
-
-  function setToggle(id, val) {
-    state[id] = val;
-    renderItems();
-    updateResult();
-  }
+  function onNumericInput(id, val) { rawVals[id] = val; refreshUI(); }
+  function setToggle(id, val) { toggleVals[id] = val; refreshUI(); }
 
   function resetAll() {
-    items.forEach(i => { state[i.id] = i.type === 'numeric' ? '' : null; });
-    renderItems();
-    updateResult();
+    [1,2,3].forEach(id => { rawVals[id] = ''; document.getElementById(`inp-${id}`).value = ''; });
+    [4,5,6].forEach(id => { toggleVals[id] = null; });
+    document.getElementById('f-nama').value = '';
+    document.getElementById('f-rm').value = '';
+    document.getElementById('f-tanggal').value = new Date().toISOString().split('T')[0];
+    refreshUI();
   }
 
-  renderItems();
-  updateResult();
+  function showToast(msg, type = '') {
+    const t = document.getElementById('toast');
+    t.textContent = msg; t.className = 'toast show ' + type;
+    setTimeout(() => { t.className = 'toast'; }, 3000);
+  }
+
+  async function saveToSheets() {
+    const nama    = document.getElementById('f-nama').value.trim();
+    const noRM    = document.getElementById('f-rm').value.trim();
+    const tanggal = document.getElementById('f-tanggal').value;
+    if (!nama) { showToast('⚠ Nama pasien wajib diisi', 'error'); return; }
+    if (!noRM) { showToast('⚠ No. Rekam Medis wajib diisi', 'error'); return; }
+    const total = calcTotal();
+    const risk  = total >= 7 ? 'High Risk' : total >= 4 ? 'Moderate Risk' : 'Low Risk';
+    const mortality = interp[total] ? interp[total].pct : '-';
+    const payload = {
+      nama, noRM, tanggal,
+      alt: rawVals[1], albumin: rawVals[2], nlr: rawVals[3],
+      ckd: toggleVals[4], hcc: toggleVals[5], encephalopathy: toggleVals[6],
+      totalScore: total, riskCategory: risk, mortalityPct: mortality
+    };
+    const btn = document.getElementById('btnSave');
+    btn.disabled = true; btn.innerHTML = '⏳ &nbsp;Menyimpan...';
+    try {
+      await fetch(SHEET_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+      showToast('✅ Data berhasil disimpan ke Google Sheets!', 'success');
+    } catch (err) {
+      showToast('❌ Gagal menyimpan. Periksa koneksi internet.', 'error');
+    } finally {
+      btn.disabled = false; btn.innerHTML = '💾 &nbsp;Simpan ke Google Sheets';
+    }
+  }
+
+  buildItems();
+  refreshUI();
 </script>
 </body>
 </html>
